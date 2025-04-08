@@ -9,7 +9,7 @@ import ContactSection from "./ContactSection";
 import PhotographySection from "./PhotographySection.js";
 import { FaDownload } from "react-icons/fa";
 import { motion } from "framer-motion";
-import ResumePDF from "./Benyamin-Plaksienko-Resume-Professional.pdf";
+import ResumePDF from "./Benyamin_Plaksienko_Website_Resume.pdf";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
