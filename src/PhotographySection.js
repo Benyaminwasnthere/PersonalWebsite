@@ -226,22 +226,7 @@ const PhotographySection = ({ isDarkMode }) => {
             </div>
             
             {/* Bottom info panel */}
-            <div className={`mt-2 p-4 rounded-b-lg flex justify-between items-center ${
-              isDarkMode ? "bg-gray-800 text-gray-300" : "bg-gray-100 text-gray-700"
-            }`}>
-              <div>
-                <p className="text-sm">
-                  {selectedPhoto.liked ? (
-                    <span className="flex items-center gap-1">
-                      <FaHeart className="text-red-500" /> Liked photo
-                    </span>
-                  ) : "Click the heart to like this photo"}
-                </p>
-              </div>
-              <div className="text-xs opacity-70">
-                ESC to close
-              </div>
-            </div>
+            
           </div>
         </motion.div>
       )}
