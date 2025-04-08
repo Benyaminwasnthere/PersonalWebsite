@@ -188,7 +188,7 @@ function App() {
   const downloadResume = () => {
     const link = document.createElement("a");
     link.href = ResumePDF;
-    link.setAttribute("download", "Benyamin-Plaksienko-Resume-Professional.pdf");
+    link.setAttribute("download", "Benyamin_Plaksienko_Website_Resume.pdf");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
