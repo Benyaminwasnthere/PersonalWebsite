@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import Headshot from "./Lumatic_Headshot.jpg";
 import * as THREE from "three";
 import NET from "vanta/dist/vanta.net.min";
@@ -25,7 +25,7 @@ function App() {
     setIsDarkMode(!isDarkMode);
   };
 
-  // Vanta.js effect initialization and management
+  // Vanta.js effect initialization
   useEffect(() => {
     let effect;
     let timeoutId;
@@ -42,11 +42,11 @@ function App() {
           minWidth: 200.0,
           scale: 1.0,
           scaleMobile: 1.0,
-          color: isDarkMode ? 0x3a86ff : 0x3a0ca3,
-          backgroundColor: isDarkMode ? 0x111827 : 0xf3f4f6,
-          points: isDarkMode ? 12 : 10,
-          maxDistance: isDarkMode ? 22 : 20,
-          spacing: isDarkMode ? 18 : 16,
+          color: 0x3a0ca3,
+          backgroundColor: 0xf3f4f6,
+          points: 10,
+          maxDistance: 20,
+          spacing: 16,
         });
         setVantaEffect(effect);
       }
@@ -60,7 +60,8 @@ function App() {
         effect.destroy();
       }
     };
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Runs only on mount
 
   // Update Vanta effect when dark mode changes
   useEffect(() => {
@@ -99,16 +100,25 @@ function App() {
     }
   }, [isDarkMode, vantaEffect]);
 
-  const navItems = [
+  const navItems = useMemo(() => [
     { id: "about", label: "About" },
     { id: "projects", label: "Projects" },
     { id: "education", label: "Education" },
     { id: "experience", label: "Work Experience" },
     { id: "photography", label: "Photography" },
     { id: "contact", label: "Contact" },
-  ];
+  ], []);
 
-  // Touch event handlers with useCallback
+  const navigateSections = useCallback((direction) => {
+    const currentIndex = navItems.findIndex((item) => item.id === activeSection);
+    const nextIndex = currentIndex + direction;
+
+    if (nextIndex >= 0 && nextIndex < navItems.length) {
+      setActiveSection(navItems[nextIndex].id);
+    }
+  }, [activeSection, navItems]);
+
+  // Touch event handlers
   const handleTouchStart = useCallback((e) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
@@ -155,17 +165,8 @@ function App() {
       touchStartY.current = null;
       setIsSwiping(false);
     },
-    [isSwiping]
+    [isSwiping, navigateSections]
   );
-
-  const navigateSections = (direction) => {
-    const currentIndex = navItems.findIndex((item) => item.id === activeSection);
-    const nextIndex = currentIndex + direction;
-
-    if (nextIndex >= 0 && nextIndex < navItems.length) {
-      setActiveSection(navItems[nextIndex].id);
-    }
-  };
 
   useEffect(() => {
     const contentElement = contentRef.current;
